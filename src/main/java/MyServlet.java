@@ -14,9 +14,7 @@ public class MyServlet extends HttpServlet {
 	RateLimit rateLimit;
 
 	public MyServlet() {
-		if (rateLimit == null) {
-			rateLimit = new RateLimit();
-		}
+		rateLimit = new RateLimit();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

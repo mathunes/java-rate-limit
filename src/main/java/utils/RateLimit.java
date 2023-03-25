@@ -11,7 +11,7 @@
 
         private static final int MAX_REQUESTS = 3;
         private static final int INTERVAL = 1 * 60 * 1000; // 6000 ms || 1 min
-        private static final int BLOCKED_TIME = 2 * 60 * 1000; //1200 ms || 2min
+        private static final int BLOCKED_TIME = 2 * 60 * 1000; //12000 ms || 2min
 
         private Map<String, ArrayList<Calendar>> requestsList;
         private Map<String, Calendar> blockedList;
@@ -23,32 +23,33 @@
 
         public boolean doFilter(HttpServletRequest request) {
 
-            String sessionId = request.getSession().getId();
+            String ipAddress = request.getRemoteAddr();
+            System.out.println(ipAddress);
             Calendar currentTime = this.getCurrentTime();
 
-            if (requestsList.containsKey(sessionId)) {
-                if (isInBlockedList(sessionId)) {
+            if (requestsList.containsKey(ipAddress)) {
+                if (isInBlockedList(ipAddress)) {
                     return false;
                 }
 
-                if (isAnExceedingRequest(sessionId)) {
+                if (isAnExceedingRequest(ipAddress)) {
                     return false;
                 }
 
-                requestsList.get(sessionId).add(currentTime);
+                requestsList.get(ipAddress).add(currentTime);
             } else {
                 ArrayList<Calendar> calendarList = new ArrayList<Calendar>();
                 calendarList.add(currentTime);
 
-                requestsList.put(sessionId, calendarList);
+                requestsList.put(ipAddress, calendarList);
             }
 
             return true;
         }
 
-        public Boolean isAnExceedingRequest(String sessionId) {
+        public Boolean isAnExceedingRequest(String ipAddress) {
 
-            ArrayList<Calendar> requestsListArray = requestsList.get(sessionId);
+            ArrayList<Calendar> requestsListArray = requestsList.get(ipAddress);
             int requestsListArraySize = requestsListArray.size();
             Calendar currentTime = getCurrentTime();
 
@@ -69,7 +70,7 @@
             }
 
             if (countRequestLessThanOneMinute == MAX_REQUESTS) {
-                blockedList.put(sessionId, currentTime);
+                blockedList.put(ipAddress, currentTime);
 
                 return true;
             }
@@ -77,9 +78,9 @@
             return false;
         }
 
-        public Boolean isInBlockedList(String sessionId) {
+        public Boolean isInBlockedList(String ipAddress) {
             Calendar currentTime = getCurrentTime();
-            Calendar blockTime = blockedList.get(sessionId);
+            Calendar blockTime = blockedList.get(ipAddress);
 
             if (blockTime == null) {
                 return false;
@@ -89,7 +90,7 @@
                 return true;
             }
 
-            blockedList.remove(sessionId);
+            blockedList.remove(ipAddress);
 
             return false;
         }
