@@ -37,10 +37,10 @@
 
                 requestsList.get(sessionId).add(currentTime);
             } else {
-                ArrayList<Calendar> test = new ArrayList<Calendar>();
-                test.add(currentTime);
+                ArrayList<Calendar> calendarList = new ArrayList<Calendar>();
+                calendarList.add(currentTime);
 
-                requestsList.put(sessionId, test);
+                requestsList.put(sessionId, calendarList);
             }
 
             return true;

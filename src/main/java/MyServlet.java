@@ -21,13 +21,18 @@ public class MyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String json = "";
+		response.setContentType("application/json");
+
 		if (rateLimit.doFilter(request)) {
-			response.setContentType("application/json");
-			String json = "{\"status\": \"server running\"}";
-			response.getWriter().write(json);
+			json = "{\"message\": \"ok\"}";
+			response.setStatus(200);			
 		} else {
+			json = "{\"message\": \"too many requests\"}";
 			response.setStatus(429);
 		}
+
+		response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
