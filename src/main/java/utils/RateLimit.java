@@ -11,11 +11,14 @@
 
         private static final int MAX_REQUESTS = 3;
         private static final int INTERVAL = 1 * 60 * 1000; // 6000 ms || 1 min
+        private static final int BLOCKED_TIME = 2 * 60 * 1000; //1200 ms || 2min
 
         private Map<String, ArrayList<Calendar>> requestsList;
+        private Map<String, Calendar> blockedList;
 
         public RateLimit() {
             requestsList = new ConcurrentHashMap<String, ArrayList<Calendar>>();
+            blockedList = new ConcurrentHashMap<String, Calendar>();
         }
 
         public boolean doFilter(HttpServletRequest request) {
@@ -24,6 +27,10 @@
             Calendar currentTime = this.getCurrentTime();
 
             if (requestsList.containsKey(sessionId)) {
+                if (isInBlockedList(sessionId)) {
+                    return false;
+                }
+
                 if (isAnExceedingRequest(sessionId)) {
                     return false;
                 }
@@ -62,8 +69,27 @@
             }
 
             if (countRequestLessThanOneMinute == MAX_REQUESTS) {
+                blockedList.put(sessionId, currentTime);
+
                 return true;
             }
+
+            return false;
+        }
+
+        public Boolean isInBlockedList(String sessionId) {
+            Calendar currentTime = getCurrentTime();
+            Calendar blockTime = blockedList.get(sessionId);
+
+            if (blockTime == null) {
+                return false;
+            }
+
+            if ((currentTime.getTimeInMillis() - blockTime.getTimeInMillis()) < BLOCKED_TIME) {
+                return true;
+            }
+
+            blockedList.remove(sessionId);
 
             return false;
         }
