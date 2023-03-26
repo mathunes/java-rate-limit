@@ -46,7 +46,7 @@ This is a demonstration of rate limit working in an attack started by Owasp Zap 
 
 ```
 
-For more details, see the example of the `MyServlet` class.
+For more details, see the example of the [MyServlet](https://github.com/mathunes/java-rate-limit/blob/main/src/main/java/MyServlet.java) class.
 
 ## Contributing
 
