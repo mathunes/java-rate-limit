@@ -4,7 +4,7 @@ This is a simple Java rate limit to HTTP request.
 
 _Rate limiting refers to preventing the frequency of an operation from exceeding some constraint. In large-scale systems, rate limiting is commonly used to protect underlying services and resources._
 
-*Definition by: [_Google Cloud Architecture_](https://cloud.google.com/architecture/rate-limiting-strategies-techniques)*
+Definition by: [_Google Cloud Architecture_](https://cloud.google.com/architecture/rate-limiting-strategies-techniques)
 
 This project has been tested and confirmed to work with `Java 6` and `Java 8`, but may also work with other versions of Java. However, these other versions have not been tested.
 
