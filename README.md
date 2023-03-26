@@ -28,7 +28,7 @@ This is a demonstration of rate limit working in an attack started by Owasp Zap 
 
 ## Instructions to use
 
-1. Add `RateLimit` class in your project.
+1. Add [RateLimit](https://github.com/mathunes/java-rate-limit/blob/main/src/main/java/utils/RateLimit.java) class in your project.
 2. Create an instance of the RateLimit class and run the doFilter method around your HTTP endpoint.
 
 ```
