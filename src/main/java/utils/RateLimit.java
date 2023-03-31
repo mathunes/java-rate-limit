@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 public class RateLimit {
 
     private static final int MAX_REQUESTS = 3;
-    private static final int INTERVAL = 1 * 60 * 1000; // 6000 ms || 1 min
-    private static final int BLOCKED_TIME = 2 * 60 * 1000; // 12000 ms || 2min
+    private static final int INTERVAL = 1 * 60 * 1000; // 1min
+    private static final int BLOCKED_TIME = 2 * 60 * 1000; // 2min
 
     private Map<String, ArrayList<Calendar>> requestsList;
     private Map<String, Calendar> blockedList;
