@@ -14,7 +14,7 @@ public class MyServlet extends HttpServlet {
 	RateLimit rateLimit;
 
 	public MyServlet() {
-		rateLimit = new RateLimit();
+		rateLimit = RateLimit.getInstance();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
